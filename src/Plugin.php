@@ -12,9 +12,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   protected static $STYLELINT_FILE = 'http://bconnect.b-connect.org/styleguide/.stylelintrc';
   protected static $STYLELINT_IGNORE_FILE = 'http://bconnect.b-connect.org/styleguide/.stylelintignore';
 
-  public function activate(Composer $composer, IOInterface $io)
-  {
-  }
+  public function activate(Composer $composer, IOInterface $io) {}
 
   public static function getSubscribedEvents()
   {
@@ -31,11 +29,12 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
 
   public function download(Composer $composer, IOInterface $io) {
     $rootDir = dirname($composer->getConfig()->get('vendor-dir'));
-    $io->write($rootDir . "\n");
-    if (!copy(static::$STYLELINT_FILE, $rootDir + "/" + basename(static::$STYLELINT_FILE))) {
+    $io->write("<green>Download stylelint configs....</green>", true, IOInterface::NORMAL);
+    $error = false;
+    if (!copy(static::$STYLELINT_FILE, $rootDir . "/" . basename(static::$STYLELINT_FILE))) {
       $io->writeError("Could not download stylelint config", true);
     }
-    if (!copy(static::$STYLELINT_IGNORE_FILE, $rootDir + "/" + basename(static::$STYLELINT_IGNORE_FILE))) {
+    if (!copy(static::$STYLELINT_IGNORE_FILE, $rootDir . "/" . basename(static::$STYLELINT_IGNORE_FILE))) {
       $io->writeError("Could not download stylelint ignore config", true);
     }
   }
