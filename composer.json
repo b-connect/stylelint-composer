@@ -7,6 +7,9 @@
             "Bconnect\\Composer\\": "src/"
         }
     },
+    "extra":{
+        "class":"Bconnect\\Composer\\Plugin"
+    },
     "require": {
         "php": "^5.5.9|>=7.0.8",
         "composer-plugin-api": "^1.0.0"

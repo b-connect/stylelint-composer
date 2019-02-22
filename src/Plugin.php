@@ -2,30 +2,42 @@
 
 namespace Bconnect\Composer;
 
-use Composer\Script\Event;
-use Composer\Plugin\CommandEvent;
 use Composer\Composer;
 use Composer\EventDispatcher\EventSubscriberInterface;
-use Composer\Installer\PackageEvent;
-use Composer\Installer\PackageEvents;
 use Composer\IO\IOInterface;
-use Composer\Plugin\Capable;
-use Composer\Plugin\PluginEvents;
 use Composer\Plugin\PluginInterface;
-use Composer\Script\ScriptEvents;
 
 class Plugin implements PluginInterface, EventSubscriberInterface {
-  /**
-   * @var \Bconnect\Composer\Handler
-   */
-  protected $handler;
+
+  protected static $STYLELINT_FILE = 'http://bconnect.b-connect.org/styleguide/.stylelintrc';
+  protected static $STYLELINT_IGNORE_FILE = 'http://bconnect.b-connect.org/styleguide/.stylelintignore';
+
+  public function activate(Composer $composer, IOInterface $io)
+  {
+  }
 
   public static function getSubscribedEvents()
   {
       return array(
-          'post-install-cmd' => 'installOrUpdate',
-          'post-update-cmd' => 'installOrUpdate',
+          'post-install-cmd' => 'handle',
+          'post-update-cmd' => 'handle',
       );
+  }
+
+  public function handle($event)
+  {
+      $this->download($event->getComposer(), $event->getIO());
+  }
+
+  public function download(Composer $composer, IOInterface $io) {
+    $rootDir = dirname($composer->getConfig()->get('vendor-dir'));
+    $io->write($rootDir . "\n");
+    if (!copy(static::$STYLELINT_FILE, $rootDir + "/" + basename(static::$STYLELINT_FILE))) {
+      $io->writeError("Could not download stylelint config", true);
+    }
+    if (!copy(static::$STYLELINT_IGNORE_FILE, $rootDir + "/" + basename(static::$STYLELINT_IGNORE_FILE))) {
+      $io->writeError("Could not download stylelint ignore config", true);
+    }
   }
 
 }
