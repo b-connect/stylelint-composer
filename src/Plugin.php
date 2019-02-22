@@ -9,7 +9,7 @@ use Composer\Plugin\PluginInterface;
 
 class Plugin implements PluginInterface, EventSubscriberInterface {
 
-  protected static $STYLELINT_FILE = 'http://bconnect.b-connect.org/styleguide/.stylelintrc';
+  protected static $STYLELINT_FILE = 'http://bconnect.b-connect.org/styleguide/.stylelintrc.yml';
   protected static $STYLELINT_IGNORE_FILE = 'http://bconnect.b-connect.org/styleguide/.stylelintignore';
 
   public function activate(Composer $composer, IOInterface $io) {}
