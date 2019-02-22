@@ -29,7 +29,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
 
   public function download(Composer $composer, IOInterface $io) {
     $rootDir = dirname($composer->getConfig()->get('vendor-dir'));
-    $io->write("<green>Download stylelint configs....</green>", true, IOInterface::NORMAL);
+    $io->write("Download stylelint configs....", true, IOInterface::NORMAL);
     $error = false;
     if (!copy(static::$STYLELINT_FILE, $rootDir . "/" . basename(static::$STYLELINT_FILE))) {
       $io->writeError("Could not download stylelint config", true);
